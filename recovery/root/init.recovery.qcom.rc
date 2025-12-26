@@ -3,6 +3,12 @@ on early-init
     write /sys/fs/selinux/enforce 0
 
 on init
+    mkdir /dev/binderfs
+    mount binder binder /dev/binderfs stats=global
+    chmod 0755 /dev/binderfs
+    symlink /dev/binderfs/binder /dev/binder
+    chmod 0666 /dev/binderfs/binder
+    start hwservicemanager
     start vendor.boot-hal-default
 
 on fs

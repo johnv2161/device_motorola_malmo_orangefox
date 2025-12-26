@@ -46,7 +46,7 @@ vendor      /vendor      erofs    ro    wait,slotselect,logical,first_stage_moun
 
 # Data (Simplified for initial boot)
 /dev/block/by-name/userdata  /data  f2fs  noatime,nosuid,nodev,discard  wait,check,quota,formattable
-/dev/block/bootdevice/by-name/metadata                  /metadata              f2fs    noatime,nosuid,nodev,discard                         wait,check,formattable,first_stage_mount
+/dev/block/bootdevice/by-name/metadata                  /metadata              f2fs    noatime,slotselect,nosuid,nodev,discard                         wait,check,formattable,first_stage_mount
 /dev/block/bootdevice/by-name/userdata  /data  f2fs  noatime,nosuid,nodev,discard  wait,check,quota,formattable,fileencryption=aes-256-xts:aes-256-cts:v2,keydirectory=/metadata/vold/metadata_encryption
 /dev/block/bootdevice/by-name/misc                      /misc                  emmc    defaults                                             defaults
 /dev/block/bootdevice/by-name/vendor_boot               /vendor_boot           emmc    defaults                         wait,slotselect,backup=1,flashimg=1,display="Vendor Boot"
