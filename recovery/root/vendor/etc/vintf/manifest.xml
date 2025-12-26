@@ -1,0 +1,13 @@
+<!--
+    Input:
+        device/qcom/blair/manifest_blair.xml
+-->
+<manifest version="7.0" type="device" target-level="8">
+    <hal format="aidl">
+        <name>android.hardware.gatekeeper</name>
+        <fqname>IGatekeeper/default</fqname>
+    </hal>
+    <sepolicy>
+        <version>34</version>
+    </sepolicy>
+</manifest>

@@ -1,0 +1,38 @@
+on early-init
+    # From stock: Essential for Android 14 library loading
+    mkdir /linkerconfig 0711
+    copy /system/etc/ld.config.txt /linkerconfig/ld.config.txt
+    chmod 444 /linkerconfig/ld.config.txt
+    
+    # Security
+    write /sys/fs/selinux/enforce 0
+
+on init
+    # Binderfs - CRITICAL for Moto G85
+    mkdir /dev/binderfs
+    mount binder binder /dev/binderfs stats=global
+    chmod 0755 /dev/binderfs
+    symlink /dev/binderfs/binder /dev/binder
+    chmod 0666 /dev/binderfs/binder
+    
+    # Start the manager for AIDL HALs
+    start servicemanager
+    
+    # Now start your Boot HAL
+    start vendor.boot-hal-default
+
+on fs
+    # Standard symlinks
+    wait /dev/block/platform/soc/4804000.ufshc
+    symlink /dev/block/platform/soc/4804000.ufshc /dev/block/bootdevice
+    
+    # Firmware for Battery/Haptics
+    mkdir /firmware
+    mount vfat /dev/block/by-name/modem${ro.boot.slot_suffix} /firmware ro
+
+on property:twrp.modules.loaded=true
+    start vendor.health-default
+    start vendor.qti.vibrator
+
+on boot
+    setprop sys.usb.config adb
